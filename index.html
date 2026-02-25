@@ -182,8 +182,9 @@ button {
 <body>
 
 <div class="banner">
-  Thanks for coming to <em>my</em> thesis presentation 🎓 &nbsp;·&nbsp;
-  In case we're waiting and you're bored, please take this as a souvenir to spend a few minutes understanding one of the core techniques used in my thesis. Thanks! 💛
+  Thanks for coming to my thesis presentation! 🎓 &nbsp;·&nbsp;
+  In case we're waiting and you're bored, please take this as a souvenir to spend a few minutes understanding one of the techniques used in my thesis. Thanks! 💛
+  - Muskan
 </div>
 
 <div class="container">
@@ -262,9 +263,9 @@ button {
 
 <script>
 // Numbers with three natural groups (~10s, ~40s, ~90s–100s).
-// Every pairwise distance is unique — so there is always exactly ONE correct merge.
+// Every pairwise distance is unique, so there is always exactly ONE correct merge.
 // Every pairwise distance stays unique through ALL 8 merge steps,
-// including after centroids are computed — verified by simulation.
+// including after centroids are computed, verified by simulation.
 const BASE_NUMS = [8, 17, 20, 38, 48, 57, 84, 94, 102];
 
 function shuffle(arr) {
@@ -350,7 +351,7 @@ function selectTile(i) {
     selected = [];
     setTimeout(() => processMerge(a, b), 90);
   } else {
-    setInstr(`Good — now tap the number closest to ${values[i] % 1 === 0 ? values[i] : values[i].toFixed(1)}.`, true);
+    setInstr(`Good! Now tap the number closest to ${values[i] % 1 === 0 ? values[i] : values[i].toFixed(1)}.`, true);
   }
 }
 
@@ -552,9 +553,9 @@ function renderHistory() {
 function showWin() {
   const opts = mergeHistory.filter(h => h.optimal).length;
   let grade, emoji;
-  if (opts === 8) { grade = "All 8 optimal — you think like the algorithm. 🧠"; emoji = "🏆"; }
+  if (opts === 8) { grade = "All 8 optimal, you think like the algorithm! 🧠"; emoji = "🏆"; }
   else if (opts >= 5) { grade = "Strong numerical intuition!"; emoji = "🎉"; }
-  else if (opts >= 3) { grade = "Decent run — did the dendrogram surprise you?"; emoji = "😊"; }
+  else if (opts >= 3) { grade = "Decent run. Did the dendrogram surprise you?"; emoji = "😊"; }
   else { grade = "The algorithm is merciless. Try again?"; emoji = "📚"; }
 
   document.getElementById("w-emoji").textContent = emoji;
@@ -586,7 +587,7 @@ function resetGame() {
   document.getElementById("timer-val").textContent = "–";
   document.getElementById("timer-card").classList.remove("running");
 
-  setInstr("Tap any tile to start — your timer begins on the first tap.", false);
+  setInstr("Tap any tile to start, your timer begins on the first tap!", false);
   buildTiles();
   updateStats();
 }

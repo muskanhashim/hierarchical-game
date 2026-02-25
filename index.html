@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hierarchical Clustering Game</title>
+<style>
+  body { font-family: sans-serif; text-align: center; padding: 20px; background:#f0f0f0;}
+  h1 { margin-bottom: 5px; }
+  .grid { display: grid; grid-template-columns: repeat(3, 100px); grid-gap: 10px; margin: 20px auto; }
+  .cell { width: 100px; height: 100px; cursor: pointer; border: 2px solid #333; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; font-size: 20px; border-radius: 10px; }
+  .cell:hover { transform: scale(1.05); transition: 0.2s; }
+  #dendrogram { margin-top: 20px; font-family: monospace; white-space: pre; text-align:left; display:inline-block; }
+</style>
+</head>
+<body>
+<h1>Hierarchical Clustering Game</h1>
+<p>Click two cells to merge the most similar ones!</p>
+<div class="grid" id="grid"></div>
+<div id="dendrogram">Dendrogram:\n</div>
+
+<script>
+// Define similar colors in families
+const colors = [
+  "#ff0000","#ff6666","#ffaaaa",   // Reds
+  "#0000ff","#6666ff","#aaaaff",   // Blues
+  "#00aa00","#66ff66","#aaffaa"    // Greens
+];
+
+const labels = ["A","B","C","D","E","F","G","H","I"];
+const grid = document.getElementById("grid");
+let selected = [];
+let merges = [];
+
+colors.forEach((color,index)=>{
+  const cell = document.createElement("div");
+  cell.className = "cell";
+  cell.style.backgroundColor = color;
+  cell.textContent = labels[index];
+  cell.title = "Cell " + labels[index];
+  cell.addEventListener("click",()=>selectCell(index));
+  grid.appendChild(cell);
+});
+
+function colorDistance(c1, c2){
+  // Convert hex to RGB
+  const r1 = parseInt(c1.substr(1,2),16);
+  const g1 = parseInt(c1.substr(3,2),16);
+  const b1 = parseInt(c1.substr(5,2),16);
+  const r2 = parseInt(c2.substr(1,2),16);
+  const g2 = parseInt(c2.substr(3,2),16);
+  const b2 = parseInt(c2.substr(5,2),16);
+  // Euclidean distance in RGB space
+  return Math.sqrt((r1-r2)**2 + (g1-g2)**2 + (b1-b2)**2);
+}
+
+function selectCell(index){
+  if(!selected.includes(index)) selected.push(index);
+  if(selected.length===2){
+    const d = colorDistance(colors[selected[0]],colors[selected[1]]).toFixed(1);
+    merges.push({pair:[labels[selected[0]],labels[selected[1]]],distance:d});
+    updateDendrogram();
+    selected=[];
+    alert("Merged cells: " + labels[selected[0]] + " & " + labels[selected[1]] + " (distance: " + d + ")");
+  }
+}
+
+function updateDendrogram(){
+  let tree = "";
+  merges.forEach((m,i)=>{
+    tree += i+1 + ". Merge " + m.pair[0] + " & " + m.pair[1] + " (dist: "+ m.distance + ")\n";
+  });
+  document.getElementById("dendrogram").textContent = "Dendrogram:\n" + tree;
+}
+</script>
+</body>
+</html>
